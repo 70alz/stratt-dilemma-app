@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Stratt Dilemma: Ethical Storyboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.8;
+            padding-bottom: 50px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 4px solid #ff6b6b;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff6b6b;
+            text-shadow: 3px 3px 0px #ffeaa7;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #6c5ce7;
+            font-style: italic;
+        }
+
+        .grade-selector {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border: 3px solid #fdcb6e;
+        }
+
+        .grade-selector label {
+            font-size: 1.4rem;
+            margin-right: 15px;
+            color: #6c5ce7;
+            font-weight: bold;
+        }
+
+        .grade-selector select {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: 3px solid #fdcb6e;
+            border-radius: 15px;
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .grade-selector select:hover {
+            background: #fdcb6e;
+            transform: scale(1.05);
+        }
+
+        /* Philosophers Tube Section */
+        .philosophers-tube {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 30px;
+            border: 4px dashed #6c5ce7;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .tube-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .tube-title {
+            font-size: 2.5rem;
+            color: #6c5ce7;
+            text-shadow: 2px 2px 0px #fff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .tube-subtitle {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .philosopher-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .philosopher-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            border: 3px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .philosopher-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .philosopher-card.utilitarian { border-color: #00b894; }
+        .philosopher-card.deontological { border-color: #0984e3; }
+        .philosopher-card.virtue { border-color: #e17055; }
+        .philosopher-card.fairness { border-color: #fdcb6e; }
+        .philosopher-card.justice { border-color: #d63031; }
+        .philosopher-card.care { border-color: #e84393; }
+
+        .card-icon {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .card-philosopher {
+            font-size: 0.95rem;
+            color: #6c5ce7;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .card-preview {
+            font-size: 0.95rem;
+            color: #666;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Modal for Philosopher Details */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 5px solid #6c5ce7;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg) scale(1.2);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: #6c5ce7;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .modal-philosopher {
+            font-size: 1.2rem;
+            color: #fdcb6e;
+            font-style: italic;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px dashed #ddd;
+        }
+
+        .modal-section {
+            margin-bottom: 25px;
+        }
+
+        .modal-section-title {
+            font-size: 1.4rem;
+            color: #00b894;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-text {
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.9;
+            margin-bottom: 15px;
+        }
+
+        .illustration-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid #ff9800;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .illustration-emoji {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .illustration-caption {
+            font-size: 1.1rem;
+            color: #e65100;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .illustration-description {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 6px solid #e17055;
+            margin: 20px 0;
+        }
+
+        .example-title {
+            font-size: 1.2rem;
+            color: #d63031;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example-text {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .key-idea-box {
+            background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+            border-radius: 15px;
+            padding: 20px;
+            color: #fff;
+            margin: 20px 0;
+            border: 3px solid #fff;
+        }
+
+        .key-idea-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .key-idea-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .book-quote-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 6px solid #4caf50;
+            margin: 20px 0;
+        }
+
+        .book-quote-text {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: #2e7d32;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .book-quote-source {
+            font-size: 1rem;
+            color: #1b5e20;
+            font-weight: bold;
+        }
+
+        .children-book-box {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid #ec407a;
+            margin: 20px 0;
+        }
+
+        .children-book-title {
+            font-size: 1.2rem;
+            color: #880e4f;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .children-book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .children-book-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #ec407a;
+        }
+
+        .children-book-name {
+            font-weight: bold;
+            color: #880e4f;
+            font-size: 1rem;
+        }
+
+        .children-book-philosophy {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .storyboard-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 35px;
+            border: 4px solid #fdcb6e;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 4px dashed #fdcb6e;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .panel-icon {
+            font-size: 3.5rem;
+        }
+
+        .panel-title {
+            font-size: 2rem;
+            color: #ff6b6b;
+            flex: 1;
+            font-weight: bold;
+        }
+
+        .philosopher-badge {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        }
+
+        .scenario-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-left: 6px solid #ff6b6b;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 0 20px 20px 0;
+        }
+
+        .scenario-label {
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 12px;
+            display: block;
+            font-size: 1.2rem;
+        }
+
+        .scenario-text {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #333;
+        }
+
+        .scenario-selector {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            border: 3px solid #a29bfe;
+        }
+
+        .scenario-selector label {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            color: #6c5ce7;
+            font-weight: bold;
+        }
+
+        .scenario-selector select {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: 3px solid #a29bfe;
+            border-radius: 12px;
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+            max-width: 500px;
+            font-family: inherit;
+        }
+
+        .scenario-selector select:hover {
+            background: #a29bfe;
+            color: #fff;
+        }
+
+        .yes-no-section {
+            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 3px solid #6c5ce7;
+        }
+
+        .yes-no-question {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .radio-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 20px 40px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border: 4px solid transparent;
+            font-weight: bold;
+            background: #fff;
+        }
+
+        .radio-label:hover {
+            transform: scale(1.1);
+        }
+
+        .radio-label input[type="radio"] {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+
+        .radio-label.agree {
+            border-color: #00b894;
+            color: #00b894;
+        }
+
+        .radio-label.agree:hover {
+            background: #00b894;
+            color: #fff;
+        }
+
+        .radio-label.disagree {
+            border-color: #ff7675;
+            color: #ff7675;
+        }
+
+        .radio-label.disagree:hover {
+            background: #ff7675;
+            color: #fff;
+        }
+
+        .preep-section {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 3px solid #fdcb6e;
+        }
+
+        .preep-title {
+            font-size: 1.8rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+        }
+
+        .preep-description {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .preep-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .preep-box {
+            background: #fff;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .preep-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .preep-box.p-point { 
+            border-left: 6px solid #00b894;
+            background: linear-gradient(90deg, #e8f8f5 0%, #fff 100%);
+        }
+        .preep-box.r-reason { 
+            border-left: 6px solid #0984e3;
+            background: linear-gradient(90deg, #e3f2fd 0%, #fff 100%);
+        }
+        .preep-box.e-evidence { 
+            border-left: 6px solid #fdcb6e;
+            background: linear-gradient(90deg, #fff8e1 0%, #fff 100%);
+        }
+        .preep-box.e-explanation { 
+            border-left: 6px solid #e17055;
+            background: linear-gradient(90deg, #fbe9e7 0%, #fff 100%);
+        }
+        .preep-box.p-conclusion { 
+            border-left: 6px solid #a29bfe;
+            background: linear-gradient(90deg, #ede7f6 0%, #fff 100%);
+        }
+
+        .preep-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .preep-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .preep-box.p-point .preep-letter { background: linear-gradient(45deg, #00b894, #55efc4); }
+        .preep-box.r-reason .preep-letter { background: linear-gradient(45deg, #0984e3, #74b9ff); }
+        .preep-box.e-evidence .preep-letter { background: linear-gradient(45deg, #fdcb6e, #ffeaa7); }
+        .preep-box.e-explanation .preep-letter { background: linear-gradient(45deg, #e17055, #fab1a0); }
+        .preep-box.p-conclusion .preep-letter { background: linear-gradient(45deg, #a29bfe, #dfe6e9); }
+
+        .preep-starter {
+            color: #888;
+            font-style: italic;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            background: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border-left: 3px solid #ddd;
+        }
+
+        .preep-input {
+            width: 100%;
+            padding: 18px;
+            border: 3px solid #ddd;
+            border-radius: 12px;
+            background: #fff;
+            color: #333;
+            font-size: 1.1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .preep-input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.3);
+            background: #fcfcfc;
+        }
+
+        .preep-input::placeholder {
+            color: #aaa;
+        }
+
+        textarea.preep-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-container {
+            text-align: center;
+            margin-top: 35px;
+            padding-top: 30px;
+            border-top: 4px dashed #fdcb6e;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #00b894, #55efc4);
+            color: #fff;
+            border: none;
+            padding: 22px 60px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: inherit;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px) scale(1.08);
+            box-shadow: 0 12px 40px rgba(0, 184, 148, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: #b2bec3;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .feedback-report {
+            display: none;
+            margin-top: 35px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-header {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            border: 4px solid #fdcb6e;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .feedback-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .feedback-subtitle {
+            color: #ffeaa7;
+            font-size: 1.1rem;
+        }
+
+        .feedback-section {
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 4px solid;
+            background: #fff;
+        }
+
+        .feedback-section.supporting {
+            border-color: #00b894;
+            background: linear-gradient(135deg, #e8f8f5 0%, #fff 100%);
+        }
+
+        .feedback-section.opposing {
+            border-color: #fdcb6e;
+            background: linear-gradient(135deg, #fff8e1 0%, #fff 100%);
+        }
+
+        .feedback-section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+        }
+
+        .supporting .feedback-section-title {
+            color: #00b894;
+        }
+
+        .opposing .feedback-section-title {
+            color: #e17055;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+            border-left: 6px solid #6c5ce7;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            border-radius: 0 15px 15px 0;
+            font-style: italic;
+        }
+
+        .quote-text {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+            font-style: italic;
+        }
+
+        .quote-source {
+            font-size: 1rem;
+            color: #666;
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        .explanation-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+        }
+
+        .explanation-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .supporting .explanation-label {
+            color: #00b894;
+        }
+
+        .opposing .explanation-label {
+            color: #e17055;
+        }
+
+        .explanation-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #444;
+        }
+
+        .user-choice-display {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            padding: 20px 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .user-choice-display.agree {
+            border: 4px solid #00b894;
+        }
+
+        .user-choice-display.disagree {
+            border: 4px solid #ff7675;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            color: #fff;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+        }
+
+        footer a {
+            color: #ffeaa7;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .panel-title { font-size: 1.5rem; }
+            .radio-container { gap: 25px; }
+            .radio-label { padding: 15px 25px; font-size: 1.1rem; }
+            .tube-title { font-size: 1.8rem; flex-direction: column; }
+            .philosopher-cards { grid-template-columns: 1fr; }
+        }
+
+        .learn-more-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: #fff;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+            font-family: inherit;
+            margin-top: 20px;
+        }
+
+        .learn-more-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.6);
+        }
+
+        .books-reference {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 3px solid #00b894;
+        }
+
+        .books-title {
+            font-size: 1.5rem;
+            color: #00b894;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .books-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .book-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #6c5ce7;
+        }
+
+        .book-item-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .book-item-author {
+            color: #666;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 The Stratt Dilemma</h1>
+            <p class="subtitle">Ethical Storyboard: PREEP Method Writing Exercise</p>
+        </header>
+
+        <!-- PHILOSOPHERS TUBE SECTION -->
+        <div class="philosophers-tube">
+            <div class="tube-header">
+                <h2 class="tube-title">📺 Philosophers Tube</h2>
+                <p class="tube-subtitle">Learn Big Ideas from Smart Thinkers! Click on a card to learn more.</p>
+            </div>
+
+            <div class="philosopher-cards">
+                <div class="philosopher-card utilitarian" onclick="openModal('utilitarian')">
+                    <div class="card-icon">⚖️</div>
+                    <h3 class="card-title">Utilitarianism</h3>
+                    <p class="card-philosopher">Jeremy Bentham & John Stuart Mill</p>
+                    <p class="card-preview">Make choices that help the MOST people feel happy and safe!</p>
+                </div>
+
+                <div class="philosopher-card deontological" onclick="openModal('deontological')">
+                    <div class="card-icon">📜</div>
+                    <h3 class="card-title">Duty Ethics</h3>
+                    <p class="card-philosopher">Immanuel Kant</p>
+                    <p class="card-preview">Some rules should NEVER be broken, no matter what happens!</p>
+                </div>
+
+                <div class="philosopher-card virtue" onclick="openModal('virtue')">
+                    <div class="card-icon">🌟</div>
+                    <h3 class="card-title">Virtue Ethics</h3>
+                    <p class="card-philosopher">Aristotle</p>
+                    <p class="card-preview">Be a good person with good habits, and you'll make good choices!</p>
+                </div>
+
+                <div class="philosopher-card fairness" onclick="openModal('fairness')">
+                    <div class="card-icon">🎯</div>
+                    <h3 class="card-title">Fairness & Rules</h3>
+                    <p class="card-philosopher">Thomas E. Wartenberg</p>
+                    <p class="card-preview">Rules keep things fair. But what if the rule-maker is unfair?</p>
+                </div>
+
+                <div class="philosopher-card justice" onclick="openModal('justice')">
+                    <div class="card-icon">🏛️</div>
+                    <h3 class="card-title">Justice & Fairness</h3>
+                    <p class="card-philosopher">Michael Sandel & John Rawls</p>
+                    <p class="card-preview">What's the FAIR thing to do? Imagine you don't know who you'll be!</p>
+                </div>
+
+                <div class="philosopher-card care" onclick="openModal('care')">
+                    <div class="card-icon">💝</div>
+                    <h3 class="card-title">Care Ethics</h3>
+                    <p class="card-philosopher">Carol Gilligan & Nel Noddings</p>
+                    <p class="card-preview">Care about people's feelings and relationships when making choices!</p>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="learn-more-btn" onclick="document.querySelector('.philosopher-cards').scrollIntoView({behavior: 'smooth'})">
+                    📚 Explore the Cards Above!
+                </button>
+            </div>
+
+            <!-- Children's Books from Wartenberg -->
+            <div class="children-book-box">
+                <div class="children-book-title">📚 Children's Books for Philosophy (from Wartenberg's "Big Ideas for Little Kids")</div>
+                <p style="margin-bottom: 15px; color: #880e4f;">Thomas Wartenberg uses these children's books to teach philosophy:</p>
+                <div class="children-book-list">
+                    <div class="children-book-item">
+                        <div class="children-book-name">🐉 Dragons and Giants</div>
+                        <div class="children-book-philosophy">Teaches: Ethics & Courage</div>
+                    </div>
+                    <div class="children-book-item">
+                        <div class="children-book-name">🐿️ Frederick</div>
+                        <div class="children-book-philosophy">Teaches: Social & Political Philosophy</div>
+                    </div>
+                    <div class="children-book-item">
+                        <div class="children-book-name">📖 The Important Book</div>
+                        <div class="children-book-philosophy">Teaches: What Really Matters</div>
+                    </div>
+                    <div class="children-book-item">
+                        <div class="children-book-name">🌈 The Wizard of Oz</div>
+                        <div class="children-book-philosophy">Teaches: Mind & Thinking</div>
+                    </div>
+                    <div class="children-book-item">
+                        <div class="children-book-name">🌳 The Giving Tree</div>
+                        <div class="children-book-philosophy">Teaches: Environmental Philosophy</div>
+                    </div>
+                    <div class="children-book-item">
+                        <div class="children-book-name">🦄 Morris the Moose</div>
+                        <div class="children-book-philosophy">Teaches: What We Can Know</div>
+                    </div>
+                    <div class="children-book-item">
+                        <div class="children-book-name">🐰 Knuffle Bunny</div>
+                        <div class="children-book-philosophy">Teaches: Language & Communication</div>
+                    </div>
+                    <div class="children-book-item">
+                        <div class="children-book-name">🎨 Emily's Art</div>
+                        <div class="children-book-philosophy">Teaches: Beauty & Art</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Books Reference -->
+            <div class="books-reference">
+                <h3 class="books-title">📚 Books We Learn From (In Your Folder!)</h3>
+                <div class="books-list">
+                    <div class="book-item">
+                        <div class="book-item-title">Big Ideas for Little Kids</div>
+                        <div class="book-item-author">Thomas E. Wartenberg - Uses children's books to teach philosophy!</div>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-item-title">A Little History of Philosophy</div>
+                        <div class="book-item-author">Nigel Warburton - Stories of great philosophers made simple</div>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-item-title">Justice: What's the Right Thing to Do?</div>
+                        <div class="book-item-author">Michael Sandel - Real dilemmas like the Trolley Problem</div>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-item-title">A Theory of Justice</div>
+                        <div class="book-item-author">John Rawls - The "Veil of Ignorance" thought experiment</div>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-item-title">Philosophy, Ethics, and Public Policy</div>
+                        <div class="book-item-author">Andrew I. Cohen - Ethics for government decisions</div>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-item-title">Nasty, Brutish, and Short</div>
+                        <div class="book-item-author">Scott Hershovitz - "Every kid is a philosopher!"</div>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-item-title">In a Different Voice</div>
+                        <div class="book-item-author">Carol Gilligan - Care ethics and relationships</div>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-item-title">Nicomachean Ethics</div>
+                        <div class="book-item-author">Aristotle - Virtue is a habit, find the "golden mean"</div>
+                    </div>
+                    <div class="book-item">
+                        <div class="book-item-title">Principles of Morals and Legislation</div>
+                        <div class="book-item-author">Jeremy Bentham - "Greatest happiness for greatest number"</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Philosopher Details -->
+        <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <h2 class="modal-title" id="modalTitle">📺 Title</h2>
+                <p class="modal-philosopher" id="modalPhilosopher">Philosopher Name</p>
+                
+                <div id="modalBody">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </div>
+
+        <div class="grade-selector">
+            <label for="gradeLevel">🎓 Select Grade Level:</label>
+            <select id="gradeLevel" onchange="updateContent()">
+                <option value="">-- Choose a Level --</option>
+                <option value="elementary">Elementary (Grades 3-5) 🌟</option>
+                <option value="middle">Middle School (Grades 6-8) 📚</option>
+                <option value="high">High School (Grades 9-12) 🎓</option>
+            </select>
+        </div>
+
+        <div class="storyboard-panel" id="storyboardPanel">
+            <div id="placeholderMessage" style="text-align: center; padding: 50px; color: #888;">
+                <p style="font-size: 4rem; margin-bottom: 20px;">📚</p>
+                <p style="font-size: 1.5rem; color: #6c5ce7;">Select a grade level above to begin your ethical journey!</p>
+                <p style="margin-top: 20px; font-size: 1.2rem;">Learn to write strong arguments using the PREEP Method.</p>
+                <p style="margin-top: 15px; color: #fdcb6e; font-weight: bold;">💡 Tip: Check out the Philosophers Tube first to learn big ideas!</p>
+            </div>
+
+            <div id="mainContent" class="hidden">
+                <div class="scenario-selector">
+                    <label for="scenarioSelect">📋 Choose a Scenario:</label>
+                    <select id="scenarioSelect" onchange="loadScenario()">
+                        <option value="">-- Select a Dilemma --</option>
+                    </select>
+                </div>
+
+                <div id="scenarioDisplay" class="hidden">
+                    <div class="panel-header">
+                        <span class="panel-icon" id="scenarioIcon">🌍</span>
+                        <h2 class="panel-title" id="scenarioTitle">Scenario Title</h2>
+                        <span class="philosopher-badge" id="scenarioBadge">Philosopher</span>
+                    </div>
+
+                    <div class="scenario-box">
+                        <span class="scenario-label">📖 The Story:</span>
+                        <p class="scenario-text" id="scenarioText">Scenario text goes here...</p>
+                    </div>
+
+                    <div class="yes-no-section">
+                        <p class="yes-no-question" id="yesNoQuestion">❓ Do you agree with Stratt's decision?</p>
+                        <div class="radio-container">
+                            <label class="radio-label agree">
+                                <input type="radio" name="agreeDisagree" value="agree" onchange="enableSubmit()">
+                                ✅ Yes, I AGREE
+                            </label>
+                            <label class="radio-label disagree">
+                                <input type="radio" name="agreeDisagree" value="disagree" onchange="enableSubmit()">
+                                ❌ No, I DISAGREE
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="preep-section">
+                        <h3 class="preep-title">
+                            <span>📝</span> The PREEP Method
+                        </h3>
+                        <p class="preep-description">
+                            Use this framework to build a strong argument. Fill in each section:
+                        </p>
+
+                        <div class="preep-container">
+                            <div class="preep-box p-point">
+                                <div class="preep-label">
+                                    <span class="preep-letter">P</span>
+                                    <span>Point: What do you think?</span>
+                                </div>
+                                <p class="preep-starter" id="starterPoint">Starter: "I think..."</p>
+                                <input type="text" class="preep-input" id="preepPoint" placeholder="Complete the sentence...">
+                            </div>
+
+                            <div class="preep-box r-reason">
+                                <div class="preep-label">
+                                    <span class="preep-letter">R</span>
+                                    <span>Reason: Why do you think this?</span>
+                                </div>
+                                <p class="preep-starter" id="starterReason">Starter: "This is because..."</p>
+                                <textarea class="preep-input" id="preepReason" placeholder="Explain your thinking..."></textarea>
+                            </div>
+
+                            <div class="preep-box e-evidence">
+                                <div class="preep-label">
+                                    <span class="preep-letter">E</span>
+                                    <span>Evidence: What part of the story helps prove your point?</span>
+                                </div>
+                                <p class="preep-starter" id="starterEvidence">Starter: "In the story..."</p>
+                                <textarea class="preep-input" id="preepEvidence" placeholder="Use details from the story..."></textarea>
+                            </div>
+
+                            <div class="preep-box e-explanation">
+                                <div class="preep-label">
+                                    <span class="preep-letter">E</span>
+                                    <span>Explanation: How does your evidence prove your reason?</span>
+                                </div>
+                                <p class="preep-starter" id="starterExplanation">Starter: "This shows that..."</p>
+                                <textarea class="preep-input" id="preepExplanation" placeholder="Connect your evidence to your reason..."></textarea>
+                            </div>
+
+                            <div class="preep-box p-conclusion">
+                                <div class="preep-label">
+                                    <span class="preep-letter">P</span>
+                                    <span>Point: Wrap it up!</span>
+                                </div>
+                                <p class="preep-starter" id="starterConclusion">Starter: "So, I believe..."</p>
+                                <input type="text" class="preep-input" id="preepConclusion" placeholder="Summarize your argument...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-container">
+                        <button class="submit-btn" id="submitBtn" onclick="submitAnalysis()" disabled>
+                            📤 Submit My PREEP Analysis
+                        </button>
+                    </div>
+
+                    <div id="feedbackReport" class="feedback-report">
+                        <div class="feedback-header">
+                            <h2 class="feedback-title">
+                                <span>📋</span> Official Stratt Authority Review
+                            </h2>
+                            <p class="feedback-subtitle">Ethical Analysis Feedback Report</p>
+                        </div>
+
+                        <div id="userChoiceDisplay" class="user-choice-display"></div>
+
+                        <div class="feedback-section supporting">
+                            <h3 class="feedback-section-title">
+                                <span>✅</span> Section A: Supporting Your View
+                            </h3>
+                            <div id="supportingContent"></div>
+                        </div>
+
+                        <div class="feedback-section opposing">
+                            <h3 class="feedback-section-title">
+                                <span>🔄</span> Section B: The Opposing View (Counter-Argument)
+                            </h3>
+                            <div id="opposingContent"></div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button class="submit-btn" onclick="resetForm()" style="background: linear-gradient(45deg, #ff7675, #d63031);">
+                                🔄 Try Another Scenario
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>The Stratt Dilemma: Ethical Storyboard</p>
+            <p>Teaching philosophy through stories | PREEP Method Writing Exercise</p>
+            <p style="margin-top: 15px;">
+                📚 Sources: Nigel Warburton | Andrew I. Cohen | Thomas E. Wartenberg | Michael Sandel | John Rawls | Jeremy Bentham | John Stuart Mill | Immanuel Kant | Aristotle | Carol Gilligan | Scott Hershovitz
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== PHILOSOPHERS TUBE DATA ====================
+        const philosophersTubeData = {
+            utilitarian: {
+                title: "⚖️ Utilitarianism: The Greatest Good",
+                philosopher: "Jeremy Bentham (1748-1832) & John Stuart Mill (1806-1873)",
+                mainIdea: "Utilitarianism says an action is RIGHT if it creates the MOST happiness for the MOST people, and WRONG if it creates more pain than pleasure.",
+                illustration: {
+                    emoji: "⚖️😊😢",
+                    caption: "The Happiness Scale",
+                    description: "Imagine a big scale. On one side, put everyone's happiness. On the other, everyone's pain. Utilitarianism says: choose the option that makes the happiness side HEAVIER!"
+                },
+                explanation: `Jeremy Bentham said: "Nature has placed mankind under the governance of two sovereign masters, pain and pleasure."
+
+He believed we could actually CALCULATE happiness! Add up all the pleasure an action creates, subtract all the pain, and if the number is positive, it's a good action.
+
+John Stuart Mill improved this idea. He said some pleasures are BETTER than others. Reading a good book is a "higher" pleasure than just eating candy. Both feel good, but one is more valuable.`,
+                keyIdea: "💡 Big Idea from the Books: Bentham said words like 'ought,' 'right,' and 'wrong' only have meaning if we think about happiness and pain. Mill said: 'Happiness is the sole end of human action.'",
+                example: `🍕 PIZZA PARTY EXAMPLE (from Warburton):
+
+Your class has 10 slices of pizza. There are 10 students, but 2 students are VERY hungry (they skipped breakfast), and 8 students already had a big lunch.
+
+A utilitarian might say: "Give the 2 hungry students 3 slices each (6 total), and share the remaining 4 slices among the other 8 students."
+
+This creates MORE overall happiness because the hungry students REALLY need it!
+
+BUT - Warburton warns: "An occasional lie or theft might seem good, but if EVERYONE did it, trust would disappear." So we need to think about long-term effects too!`,
+                bookQuote: {
+                    quote: "Nature has placed mankind under the governance of two sovereign masters, pain and pleasure. It is for them alone to point out what we ought to do.",
+                    source: "Jeremy Bentham, 'An Introduction to the Principles of Morals and Legislation' (1789)",
+                    simplified: "Bentham says pain and pleasure are the BOSSES of all our decisions. We should create more pleasure and less pain for everyone affected."
+                },
+                bookConnection: "In The Stratt Dilemma, Commander Stratt makes utilitarian choices—like taking something from a few people to save EVERYONE on Earth. But is that really right?"
+            },
+            deontological: {
+                title: "📜 Duty Ethics: Rules That Never Change",
+                philosopher: "Immanuel Kant (1724-1804)",
+                mainIdea: "Some rules should NEVER be broken, no matter what. Being good means following your duty, not just looking at results. People deserve respect, not to be used as tools.",
+                illustration: {
+                    emoji: "📜🚫✅",
+                    caption: "The Unbreakable Rules",
+                    description: "Imagine stone tablets with rules carved into them. These rules NEVER change, no matter what situation you're in. That's what Kant believed!"
+                },
+                explanation: `Kant had a famous test called the "Categorical Imperative." Here's what it means:
+
+Before you do something, ask: "What if EVERYONE did this?"
+
+If the world would be worse, don't do it!
+
+For example: Should you lie to avoid trouble? Kant says NO. If everyone lied whenever they wanted, nobody could trust anyone. Society would fall apart!
+
+Kant also said: Never use people as TOOLS. Every person has dignity and deserves respect.`,
+                keyIdea: "💡 Big Idea: Some things are ALWAYS wrong (lying, stealing, hurting), even if doing them would help others. People are ENDS in themselves, not means to an end.",
+                example: `🚦 TRAFFIC LIGHT EXAMPLE:
+
+You're rushing to the hospital to visit your sick grandma. You come to a red light. No cars are coming. Should you run the red light?
+
+Kant says: NO! The rule exists to keep everyone safe. If everyone broke rules when they felt like it, roads would be dangerous!
+
+Even though you want to help your grandma, breaking the rule is still wrong. Rules apply to EVERYONE, always.`,
+                bookQuote: {
+                    quote: "Act only according to that maxim whereby you can at the same time will that it should become a universal law.",
+                    source: "Immanuel Kant, 'Groundwork of the Metaphysics of Morals' (1785)",
+                    simplified: "Kant says: Before acting, ask 'What if EVERYONE did this?' If the world would be worse, don't do it!"
+                },
+                bookConnection: "In The Stratt Dilemma, some disagree with Stratt because she breaks rules (taking things without asking). Kant would say: some rules should NEVER be broken!"
+            },
+            virtue: {
+                title: "🌟 Virtue Ethics: Be a Good Person",
+                philosopher: "Aristotle (384-322 BC)",
+                mainIdea: "Instead of asking 'What should I DO?', virtue ethics asks 'What kind of PERSON should I BE?' Build good habits, and good choices will follow!",
+                illustration: {
+                    emoji: "🌟🏆🌱",
+                    caption: "Growing Good Habits",
+                    description: "Imagine a small plant (that's YOU!). Every good choice you make is like watering the plant. Over time, you grow into a strong, beautiful tree with good character!"
+                },
+                explanation: `Aristotle wrote the "Nicomachean Ethics" (named after his son!). He taught that:
+
+1. Virtue is a HABIT - you're not born good, you BECOME good by practicing good actions.
+
+2. The Golden Mean - Every virtue is the BALANCE between two extremes. Courage is the middle between being too scared (cowardice) and too reckless (foolishness).
+
+3. You need a TEACHER - Like learning piano, you need guidance to become virtuous.
+
+4. It's about FEELINGS too - A virtuous person FEELS good about doing good!`,
+                keyIdea: "💡 Big Idea from Nicomachean Ethics: Virtue is acquired through habit, not nature. We become just by doing just acts, brave by doing brave acts. Excellence is a HABIT!",
+                example: `🏃 HERO EXAMPLE:
+
+Imagine someone jumps into a cold river to save a drowning dog. They don't calculate "Will this make more people happy?" or "Is there a rule about this?"
+
+They just ACT because they are a BRAVE and KIND person. Their virtues guide them!
+
+Aristotle said: "We are what we repeatedly do. Excellence, then, is not an act, but a habit." Practice being kind every day, and kindness becomes WHO YOU ARE!`,
+                bookQuote: {
+                    quote: "Virtue is a state of character concerned with choice, lying in a mean... This is the rational principle by which the man of practical wisdom would determine it.",
+                    source: "Aristotle, 'Nicomachean Ethics' (340 BC)",
+                    simplified: "Aristotle teaches that virtue is finding the BALANCE (golden mean) between too much and too little. Courage is the balance between cowardice and recklessness."
+                },
+                bookConnection: "In The Stratt Dilemma, we ask: 'Is Stratt being BRAVE or BULLYING? WISE or SELFISH?' Her CHARACTER matters, not just her choices!"
+            },
+            fairness: {
+                title: "🎯 Fairness & Rules: Who Decides?",
+                philosopher: "Thomas E. Wartenberg (Modern Philosopher)",
+                mainIdea: "Rules exist to keep things fair. But what happens when the person making the rules is unfair? Wartenberg uses children's books to teach kids how to think about these big questions!",
+                illustration: {
+                    emoji: "🎯⚖️📚",
+                    caption: "Philosophy Through Stories",
+                    description: "Wartenberg uses children's books like 'Dragons and Giants' and 'Frederick' to help kids discuss fairness, rules, and what's right. Even young kids can do philosophy!"
+                },
+                explanation: `Thomas Wartenberg wrote "Big Ideas for Little Kids" because he believes:
+
+1. Kids CAN do philosophy - They ask deep questions naturally!
+
+2. Stories are the best way - Children's books like "The Giving Tree" and "Morris the Moose" raise philosophical questions.
+
+3. Classroom discussion - Kids should talk to each other, agree or disagree, and build arguments together.
+
+4. Learner-centered - The teacher guides, but the kids do the thinking!
+
+His book includes lesson plans for using books like "Dragons and Giants" (ethics), "Frederick" (political philosophy), and "Knuffle Bunny" (language).`,
+                keyIdea: "💡 Big Idea from 'Big Ideas for Little Kids': Rules should be fair to everyone. Sometimes breaking an unfair rule is RIGHT. But who decides what's fair? That's the philosophical question!",
+                example: `🎮 GAME EXAMPLE:
+
+You're playing a board game. Your big brother keeps changing rules when he's losing: "Now rolling a 6 means you go BACKWARD!"
+
+That's not fair! Wartenberg would say: Good rules are ones EVERYONE agrees to BEFORE the game, and they stay the same for all players.
+
+In his classroom model, children discuss: "Is this fair?" "Who made this rule?" "Should we follow it?" They learn to build arguments and respect different views!`,
+                bookQuote: {
+                    quote: "Written in a clear and accessible style, this book explains why it is important to allow young children access to philosophy during primary-school education.",
+                    source: "Thomas E. Wartenberg, 'Big Ideas for Little Kids' (2009)",
+                    simplified: "Wartenberg believes young children CAN and SHOULD learn philosophy. They naturally ask deep questions and can discuss fairness, rules, and right vs. wrong!"
+                },
+                bookConnection: "In The Stratt Dilemma, Stratt makes rules without asking. Wartenberg would have students ask: 'Is she being fair? Should she have asked first?'"
+            },
+            justice: {
+                title: "🏛️ Justice & Fairness: The Fair Society",
+                philosopher: "Michael Sandel (1953-present) & John Rawls (1921-2002)",
+                mainIdea: "Justice means creating a fair society. Rawls' 'Veil of Ignorance' asks: What rules would you make if you didn't know who you'd be? Sandel uses real dilemmas like the Trolley Problem!",
+                illustration: {
+                    emoji: "🏛️🎰🚋",
+                    caption: "The Veil of Ignorance & Trolley Problem",
+                    description: "Rawls: Imagine you're behind a 'veil' - you don't know if you'll be rich or poor. Sandel: Imagine a runaway trolley - do you sacrifice one to save five? These help us think about justice!"
+                },
+                explanation: `John Rawls wrote "A Theory of Justice" with a brilliant idea:
+
+THE VEIL OF IGNORANCE: Imagine you're designing society, but you don't know who you'll be - rich or poor, strong or weak, talented or not. What rules would you make?
+
+You'd make FAIR rules, because you might end up being ANYONE!
+
+Michael Sandel wrote "Justice: What's the Right Thing to Do?" He uses real dilemmas:
+
+THE TROLLEY PROBLEM: A runaway trolley will kill 5 people. You can pull a lever to switch it to another track where 1 person stands. Do you pull it?
+
+Most people say YES. But what if you had to PUSH a fat man off a bridge to stop the trolley? Same math (1 dies, 5 live), but most say NO! Why?`,
+                keyIdea: "💡 Big Idea from Rawls & Sandel: Rawls says justice is fairness - rules you'd agree to behind the 'veil of ignorance.' Sandel says moral reasoning helps us sort out our convictions about right and wrong.",
+                example: `🍰 CAKE CUTTING EXAMPLE (Rawls):
+
+Two kids share a cake. How do they split it fairly?
+
+One cuts, the other chooses! The cutter will make equal pieces because they know they'll get whatever is left.
+
+This is like the Veil of Ignorance - you design rules not knowing which position you'll have.
+
+TROLLEY EXAMPLE (Sandel):
+Sandel says: "Some moral dilemmas arise from conflicting principles. One says save as many as possible. Another says don't kill innocents. Which has more weight?"`,
+                bookQuote: {
+                    quote: "Life in democratic societies is rife with disagreement about right and wrong, justice and injustice... Moral reasoning is a way of sorting out our own moral convictions.",
+                    source: "Michael Sandel, 'Justice: What's the Right Thing to Do?' (2009)",
+                    simplified: "Sandel teaches that philosophy helps us understand our own beliefs about justice. When we disagree, we need to figure out WHY and which principles matter more."
+                },
+                bookConnection: "In The Stratt Dilemma, Sandel would ask: 'Is Stratt's decision FAIR? Would we agree if we didn't know who we'd be in her world?'"
+            },
+            care: {
+                title: "💝 Care Ethics: Relationships Matter",
+                philosopher: "Carol Gilligan (1936-present) & Nel Noddings (1929-2022)",
+                mainIdea: "Making good choices means caring about people's feelings and relationships, not just following rules or counting happiness. Gilligan found that women often have a 'different voice' in moral reasoning.",
+                illustration: {
+                    emoji: "💝🤗👨‍👩‍👧‍👦",
+                    caption: "The Web of Care",
+                    description: "Imagine everyone connected by invisible strings of care and love. When you make a choice, you affect all the connections. Care ethics says: protect those connections!"
+                },
+                explanation: `Carol Gilligan wrote "In a Different Voice" and discovered something important:
+
+Women's moral reasoning often focuses on CARE and RELATIONSHIPS, not just abstract rules!
+
+She identified THREE STAGES:
+1. Self-focused (What's best for ME?)
+2. Care for others (I should help everyone!)
+3. Balanced care (I matter too, AND others matter)
+
+Gilligan said women's morality comes from REAL-LIFE dilemmas, not hypothetical ones.
+
+Nel Noddings added: "The moral imperative arises from the activity of care itself." Caring isn't about rules—it's about responding to people's needs!`,
+                keyIdea: "💡 Big Idea from Gilligan: 'Every kid is a philosopher!' (Scott Hershovitz agrees!) Care ethics says morality comes from relationships and responding to needs, not just following rules.",
+                example: `🏥 HOSPITAL EXAMPLE:
+
+A doctor has one dose of medicine. Two patients need it: a famous scientist who could cure diseases, and a loving grandmother with 10 grandchildren.
+
+Utilitarianism: "Save the scientist—more people benefit!"
+
+Care Ethics: "Wait! Think about the grandmother's family. Think about her relationships. The number isn't everything—love and connections matter too!"
+
+Gilligan would ask: "Who has relationships that depend on this person? Who will be most hurt?"`,
+                bookQuote: {
+                    quote: "The moral imperative arises from the activity of care itself, not from abstract principles.",
+                    source: "Nel Noddings, 'Caring: A Feminine Approach to Ethics' (1984)",
+                    simplified: "Noddings teaches that caring isn't about fancy rules—it's about paying attention to people's needs and responding with kindness. The feeling of care itself tells us what to do."
+                },
+                bookConnection: "In The Stratt Dilemma, care ethics asks: 'Is Stratt thinking about families and relationships? Or only numbers? What about the HURT she causes?'"
+            }
+        };
+
+        // ==================== MODAL FUNCTIONS ====================
+        function openModal(philosopherKey) {
+            const data = philosophersTubeData[philosopherKey];
+            
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalPhilosopher').textContent = data.philosopher;
+            
+            document.getElementById('modalBody').innerHTML = `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">🌈 The Main Idea</h3>
+                    <p class="modal-text">${data.mainIdea}</p>
+                </div>
+                
+                <div class="illustration-box">
+                    <span class="illustration-emoji">${data.illustration.emoji}</span>
+                    <div class="illustration-caption">${data.illustration.caption}</div>
+                    <div class="illustration-description">${data.illustration.description}</div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">📖 What Does This Mean?</h3>
+                    <p class="modal-text">${data.explanation.replace(/\n/g, '<br>')}</p>
+                </div>
+                
+                <div class="key-idea-box">
+                    <div class="key-idea-title">💡 Big Idea from the Books</div>
+                    <div class="key-idea-text">${data.keyIdea}</div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">🎯 Real-Life Example</div>
+                    <div class="example-text">${data.example.replace(/\n/g, '<br>')}</div>
+                </div>
+                
+                <div class="book-quote-box">
+                    <div class="modal-section-title">📚 Direct Quote from the Book</div>
+                    <p class="book-quote-text">"${data.bookQuote.quote}"</p>
+                    <p class="book-quote-source">— ${data.bookQuote.source}</p>
+                    <p class="modal-text" style="margin-top: 15px; color: #2e7d32;"><strong>Simplified:</strong> ${data.bookQuote.simplified}</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">🚀 Connection to The Stratt Dilemma</h3>
+                    <p class="modal-text">${data.bookConnection}</p>
+                </div>
+            `;
+            
+            document.getElementById('modalOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (!event || event.target === document.getElementById('modalOverlay')) {
+                document.getElementById('modalOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // ==================== SCENARIO DATA ====================
+        const gradeScenarios = {
+            elementary: [
+                {
+                    key: "bus",
+                    title: "The School Bus Problem",
+                    icon: "🚌",
+                    badge: "Wartenberg: Fairness & Rules",
+                    text: "Earth is in BIG trouble! Commander Eva needs to build a spaceship FAST to save everyone. She takes ALL the school buses from your town to melt them down for metal. She does NOT ask the students or teachers first. The buses will help build a ship that might save the whole world! But now you have no bus to get to school.",
+                    question: "❓ Is it OK for Commander Eva to take the school buses without asking?",
+                    philosopher: "Wartenberg: Fairness & Rules"
+                },
+                {
+                    key: "toys",
+                    title: "The Toy Factory Takeover",
+                    icon: "🧸",
+                    badge: "Wartenberg: Ownership & Sharing",
+                    text: "Commander Eva needs special parts for her spaceship. She takes over a toy factory and tells the workers: 'Stop making toys! Make spaceship parts instead!' The factory owner is very upset. He says, 'This is MY factory!' But Eva says, 'Saving Earth is more important than toys.'",
+                    question: "❓ Should Commander Eva be allowed to take over the toy factory?",
+                    philosopher: "Wartenberg: Ownership & Sharing"
+                },
+                {
+                    key: "homework",
+                    title: "The Homework Rule",
+                    icon: "📚",
+                    badge: "Wartenberg: Who Makes the Rules?",
+                    text: "Commander Eva makes a new rule: 'No more homework for any student!' She says homework takes too much time, and kids should help build the spaceship instead. Some students are happy! But some teachers say, 'Students need homework to learn!' Eva did not ask anyone before making this rule.",
+                    question: "❓ Was Commander Eva right to cancel homework without asking teachers?",
+                    philosopher: "Wartenberg: Who Makes the Rules?"
+                },
+                {
+                    key: "cookies",
+                    title: "The Cookie Emergency",
+                    icon: "🍪",
+                    badge: "Utilitarianism: Greatest Good",
+                    text: "The spaceship crew is VERY hungry and tired. Commander Eva takes ALL the cookies from the school cafeteria to give to the crew. She says: 'The crew needs energy to save Earth! The kids can have cookies later.' Some kids are sad because it's Cookie Friday!",
+                    question: "❓ Was Commander Eva right to take all the cookies?",
+                    philosopher: "Utilitarianism: Most Happiness"
+                },
+                {
+                    key: "playground",
+                    title: "The Playground Takeover",
+                    icon: "🛝",
+                    badge: "Utilitarianism: Helping Many",
+                    text: "Commander Eva needs a big flat space to build a rocket launch pad. She picks YOUR school's playground! She says all kids must stay home for one week while workers build the launch pad. No swings, no slides, no soccer. But the rocket will help save everyone on Earth!",
+                    question: "❓ Should Commander Eva be allowed to close the playground?",
+                    philosopher: "Utilitarianism: Most Good"
+                },
+                {
+                    key: "pets",
+                    title: "The Pet Problem",
+                    icon: "🐕",
+                    badge: "Care Ethics: Relationships",
+                    text: "The spaceship needs to test if animals can survive in space. Commander Eva takes 100 pets from kids in your town (dogs, cats, hamsters). She promises the pets will be safe and come back. But the kids are VERY sad and crying. Eva says: 'Your pets might help save ALL pets on Earth!'",
+                    question: "❓ Is it OK for Commander Eva to take the pets?",
+                    philosopher: "Care Ethics: Feelings Matter"
+                },
+                {
+                    key: "library",
+                    title: "The Book Borrowing",
+                    icon: "📖",
+                    badge: "Duty Ethics: Rules",
+                    text: "Commander Eva needs information to build the spaceship. She goes to the library and takes ALL the science books without checking them out. The librarian says: 'You need to follow the rules!' Eva says: 'Saving the world is more important than library rules!' She leaves a note saying 'Thank you.'",
+                    question: "❓ Was Commander Eva right to take the books without checking out?",
+                    philosopher: "Kant: Rules Matter"
+                },
+                {
+                    key: "lunch",
+                    title: "The Lunch Switch",
+                    icon: "🍱",
+                    badge: "Justice: Fairness",
+                    text: "The spaceship workers need good food to build fast. Commander Eva switches all school lunches: instead of pizza and burgers, everyone gets vegetables and rice. She says: 'Healthy kids don't need fancy food, but workers do!' Some kids are angry. They worked hard and wanted pizza!",
+                    question: "❓ Was the lunch switch fair?",
+                    philosopher: "Rawls: Fair for Everyone"
+                },
+                {
+                    key: "talent",
+                    title: "The Talent Show Stop",
+                    icon: "🎭",
+                    badge: "Virtue Ethics: Character",
+                    text: "Commander Eva cancels the school talent show. She says: 'Singing and dancing won't save Earth! All kids should help build the spaceship instead.' Some kids practiced for months. They are very sad. Eva says: 'I know it's hard, but being helpful is more important than having fun.'",
+                    question: "❓ Was Commander Eva right to cancel the talent show?",
+                    philosopher: "Aristotle: What Kind of Leader?"
+                }
+            ],
+            middle: [
+                {
+                    key: "carrier",
+                    title: "The Aircraft Carrier",
+                    icon: "🚢",
+                    badge: "Warburton: Utilitarianism",
+                    text: "Eva Stratt needs a mobile base to launch equipment into space. She takes a country's entire aircraft carrier without asking their citizens or government. The carrier costs billions of dollars and belongs to a nation that wanted to use it for their own defense. Stratt says: 'One nation's loss is better than everyone dying.' The country protests, but Stratt ignores them and sails away.",
+                    question: "❓ Do you agree that Stratt was right to take the aircraft carrier?",
+                    philosopher: "Warburton: Greatest Good"
+                },
+                {
+                    key: "blackout",
+                    title: "The Great Blackout Order",
+                    icon: "🌑",
+                    badge: "Warburton: Happiness Calculation",
+                    text: "The spaceship needs enormous energy to launch. Stratt orders every city on Earth to turn off ALL electricity for 30 days. No lights, no internet, no phones, no heating or air conditioning. Hospitals get emergency power, but everyone else suffers. Some elderly people get sick without heat. Some businesses go bankrupt. Stratt says: 'Thirty days of discomfort is worth saving 8 billion lives.'",
+                    question: "❓ Was Stratt right to order the global blackout?",
+                    philosopher: "Warburton: Calculating Happiness"
+                },
+                {
+                    key: "volunteers",
+                    title: "The Volunteer Question",
+                    icon: "👥",
+                    badge: "Warburton: Choice & Consequences",
+                    text: "Stratt needs 100 people to go on a dangerous space mission. They will probably die, but their data will save Earth. Instead of asking for volunteers, she picks 100 random people and tells them: 'You are going. If you refuse, we will arrest you.' Some of the chosen people have young children. Some are terrified. Stratt says: 'Volunteers would take too long to find. This is faster.'",
+                    question: "❓ Should Stratt be allowed to force people to go on the mission?",
+                    philosopher: "Warburton: Freedom vs. Duty"
+                },
+                {
+                    key: "money",
+                    title: "The Money Seizure",
+                    icon: "💰",
+                    badge: "Sandel: Justice & Property",
+                    text: "Stratt needs trillions of dollars to build the spaceship. She orders every bank to give her 30% of everyone's savings. People worked hard for that money! Some were saving for college, a house, or retirement. Stratt says: 'Money is useless if everyone is dead. Your savings will help save humanity.' Banks refuse, but Stratt takes it anyway.",
+                    question: "❓ Should Stratt be allowed to take people's savings?",
+                    philosopher: "Sandel: Property & Fairness"
+                },
+                {
+                    key: "internet",
+                    title: "The Internet Shutdown",
+                    icon: "🌐",
+                    badge: "Utilitarianism: Information Control",
+                    text: "Stratt shuts down social media and most websites. She says: 'People waste too much time online. They should be working on the spaceship!' Students can't do online research. Families can't video call. Businesses lose customers. Stratt says: 'The internet is a distraction from survival. You'll thank me later.'",
+                    question: "❓ Was Stratt right to shut down the internet?",
+                    philosopher: "Mill: Freedom vs. Good"
+                },
+                {
+                    key: "vaccine",
+                    title: "The Mandatory Vaccine",
+                    icon: "💉",
+                    badge: "Care Ethics: Bodily Choice",
+                    text: "Stratt requires everyone to get a vaccine that helps astronauts survive space radiation. The vaccine has side effects: fever, sore arm, missed school/work. Some people don't want it. Stratt says: 'Everyone must get it. Your body belongs to the survival effort now.' People are angry about being forced.",
+                    question: "❓ Should Stratt force people to get the vaccine?",
+                    philosopher: "Gilligan: Care & Choice"
+                },
+                {
+                    key: "curfew",
+                    title: "The Global Curfew",
+                    icon: "🌙",
+                    badge: "Duty Ethics: Freedom",
+                    text: "Stratt orders a worldwide curfew: no one can leave their home between 8 PM and 6 AM. Security drones patrol the streets. Anyone outside gets arrested. Stratt says: 'Nighttime activities waste energy. People need rest to work harder.' Families can't visit. Emergency workers need special permission.",
+                    question: "❓ Is the global curfew justified?",
+                    philosopher: "Kant: Freedom & Rules"
+                },
+                {
+                    key: "schools",
+                    title: "The School Closure",
+                    icon: "🏫",
+                    badge: "Rawls: Fair Opportunity",
+                    text: "Stratt closes all schools for one year. She says: 'Traditional learning is too slow. Kids should learn practical spaceship skills instead!' Teachers lose jobs. Kids miss regular education. Some parents protest. Stratt says: 'Survival skills matter more than history and art. We'll rebuild schools after.'",
+                    question: "❓ Should Stratt close all schools?",
+                    philosopher: "Rawls: Equal Opportunity"
+                },
+                {
+                    key: "artists",
+                    title: "The Artist Draft",
+                    icon: "🎨",
+                    badge: "Virtue Ethics: Purpose",
+                    text: "Stratt requires all artists, musicians, and actors to work in spaceship factories. She says: 'Art won't save us. We need workers!' A famous painter is forced to weld metal. A musician must carry heavy boxes. They say: 'Art gives people hope!' Stratt replies: 'Hope doesn't build rockets. Hands do.'",
+                    question: "❓ Should artists be forced to work in factories?",
+                    philosopher: "Aristotle: Human Purpose"
+                }
+            ],
+            high: [
+                {
+                    key: "mandate",
+                    title: "The Unilateral Global Mandate",
+                    icon: "🌐",
+                    badge: "Cohen: Public Policy Ethics",
+                    text: "Eva Stratt declares herself 'Commander of Earth Defense' without any election or UN approval. She issues binding orders to all 195 nations: 'Transfer 50% of your military budgets to my spaceship program immediately.' Nations that refuse are threatened with sanctions. International law experts say this violates sovereignty and democratic processes. Stratt responds: 'Democracy is a luxury when extinction is certain. I will save humanity, even if I must become a dictator to do it.'",
+                    question: "❓ Can emergency survival justify bypassing democracy and international law?",
+                    philosopher: "Cohen: Legitimate Authority in Crisis"
+                },
+                {
+                    key: "gene",
+                    title: "The Coma Gene Program",
+                    icon: "🧬",
+                    badge: "Cohen: Bodily Autonomy vs. Public Good",
+                    text: "The space journey takes 40 years. Stratt mandates that all crew members receive an experimental 'coma gene' injection. This puts them in suspended animation—they won't age or consume much food. But the gene is untested: 15% of subjects die, and 30% wake up with brain damage. Crew members are not told the risks. They are simply injected while sleeping. Stratt says: 'If I told them, they might refuse. The mission is too important for individual choice.'",
+                    question: "❓ Is it ethical to remove bodily autonomy for survival when subjects cannot consent?",
+                    philosopher: "Cohen: Resource Allocation & Rights"
+                },
+                {
+                    key: "intellectual",
+                    title: "Intellectual Property Seizure",
+                    icon: "💡",
+                    badge: "Cohen: Property Rights in Emergencies",
+                    text: "A private company spent 20 years and $50 billion developing advanced solar panel technology. Stratt seizes all their patents and gives the designs to every manufacturer on Earth for free. The company's stock collapses, thousands lose their jobs, and investors lose everything. The CEO sues, citing property rights. Stratt's legal team argues: 'In an existential crisis, private property is subordinate to species survival. Your loss is tragic but irrelevant.'",
+                    question: "❓ Should private property rights be suspended during an extinction-level emergency?",
+                    philosopher: "Cohen: Monopoly on Force & Property"
+                },
+                {
+                    key: "selection",
+                    title: "The Crew Selection Algorithm",
+                    icon: "🤖",
+                    badge: "Rawls: Fair Equality of Opportunity",
+                    text: "Stratt uses an AI algorithm to select spaceship crew members. The algorithm considers: intelligence, health, age, genetic diversity. It does NOT consider: wealth, connections, nationality. Some qualified people are rejected because of genetic 'flaws.' Others are selected against their will. Stratt says: 'The algorithm is perfectly fair. Human bias is removed.' Critics say: 'Genetic discrimination is still discrimination.'",
+                    question: "❓ Is algorithm-based selection truly fair?",
+                    philosopher: "Rawls: Fair Equality"
+                },
+                {
+                    key: "language",
+                    title: "The Language Ban",
+                    icon: "🗣️",
+                    badge: "Sandel: Cultural Justice",
+                    text: "Stratt declares one universal language for the spaceship mission (English). All other languages are banned on the ship. Cultural traditions must be 'streamlined for efficiency.' Elders are upset: 'You're erasing our culture!' Stratt responds: 'One language, one culture: survival culture. Diversity is a luxury we can't afford.'",
+                    question: "❓ Should cultural identity be sacrificed for unity?",
+                    philosopher: "Sandel: Common Good vs. Identity"
+                },
+                {
+                    key: "reproduction",
+                    title: "The Reproduction Policy",
+                    icon: "👶",
+                    badge: "Care Ethics: Reproductive Rights",
+                    text: "Stratt controls who can have children on the spaceship. Only genetically 'optimal' pairs are approved. Others must use contraception. Stratt says: 'We need healthy genes for the journey. Defective genes endanger everyone.' Couples in love are denied permission. Some are forced to separate. Stratt says: 'Love is individual. Survival is collective.'",
+                    question: "❓ Should reproduction be controlled for genetic optimization?",
+                    philosopher: "Gilligan: Care & Autonomy"
+                },
+                {
+                    key: "punishment",
+                    title: "The Punishment Protocol",
+                    icon: "⚖️",
+                    badge: "Kant: Justice & Human Dignity",
+                    text: "Stratt creates harsh punishments for rule-breakers: theft = 10 years labor, violence = airlock exile, disobedience = food ration cuts. There are no trials—Stratt's officers decide guilt. A starving mother steals food for her child. She's sentenced to 10 years. Stratt says: 'Rules must be strict. Chaos means death.' Supporters say: 'Where's the mercy? Where's the trial?'",
+                    question: "❓ Are harsh punishments without trials justified in crisis?",
+                    philosopher: "Kant: Justice & Human Dignity"
+                },
+                {
+                    key: "memory",
+                    title: "The Memory Modification",
+                    icon: "🧠",
+                    badge: "Mill: Happiness & Authenticity",
+                    text: "Stratt offers (then requires) memory modification for crew members. Traumatic memories of Earth can be 'softened' or removed. This reduces depression and increases productivity. But it changes who people are. Some resist: 'My memories make me ME!' Stratt says: 'Happiness is more important than painful truth. We're helping you.'",
+                    question: "❓ Is it ethical to modify memories for happiness?",
+                    philosopher: "Mill: Happiness & Authenticity"
+                },
+                {
+                    key: "religion",
+                    title: "The Faith Restriction",
+                    icon: "🙏",
+                    badge: "Kant: Freedom of Conscience",
+                    text: "Stratt limits religious practices on the spaceship. Large gatherings are banned ('security risk'). Religious texts are screened for 'divisive content.' Some prayers are restricted if they 'undermine authority.' Believers protest: 'You're attacking our souls!' Stratt responds: 'Faith is private. Survival is public. Your God won't build the ship.'",
+                    question: "❓ Should religious freedom be limited for security?",
+                    philosopher: "Kant: Freedom of Conscience"
+                }
+            ]
+        };
+
+        // ==================== BOOK QUOTES DATABASE ====================
+        const bookQuotes = {
+            elementary: {
+                agree: [
+                    {
+                        book: "Big Ideas for Little Kids",
+                        author: "Thomas E. Wartenberg",
+                        quote: "Sometimes rules can be broken if it helps more people than it hurts.",
+                        simplified: "Wartenberg teaches that rules are usually good, but sometimes there are special emergencies. If breaking one rule saves MANY people, it might be okay."
+                    },
+                    {
+                        book: "A Little History of Philosophy",
+                        author: "Nigel Warburton (Utilitarianism)",
+                        quote: "The right choice is the one that makes the most people happy.",
+                        simplified: "Warburton explains utilitarianism—we should do whatever helps the MOST people. If one difficult choice saves billions, utilitarianism says that's right."
+                    }
+                ],
+                disagree: [
+                    {
+                        book: "Big Ideas for Little Kids",
+                        author: "Thomas E. Wartenberg",
+                        quote: "Rules exist to make things fair. What if the rule-maker is being unfair?",
+                        simplified: "Wartenberg reminds us that rules help us be fair. If a leader takes things without asking, that's not fair—even for a good reason."
+                    },
+                    {
+                        book: "A Little History of Philosophy",
+                        author: "Nigel Warburton (Kant)",
+                        quote: "We should never treat people like tools—they matter!",
+                        simplified: "Kant says we cannot use people like TOOLS, even to save the world. Every person matters and deserves respect."
+                    }
+                ]
+            },
+            middle: {
+                agree: [
+                    {
+                        book: "A Little History of Philosophy",
+                        author: "Nigel Warburton",
+                        quote: "Utilitarianism asks us to calculate: what creates the greatest happiness for the greatest number?",
+                        simplified: "Warburton explains utilitarianism—we should do whatever helps the MOST people. If one difficult choice saves billions, utilitarianism says that's right."
+                    },
+                    {
+                        book: "Justice: What's the Right Thing to Do?",
+                        author: "Michael Sandel",
+                        quote: "Sometimes the right action requires difficult sacrifices for the common good.",
+                        simplified: "Sandel shows that being a good leader sometimes means making hard choices. If Stratt does something that seems mean but saves everyone, she might still be a good leader."
+                    }
+                ],
+                disagree: [
+                    {
+                        book: "A Little History of Philosophy",
+                        author: "Nigel Warburton (Kant)",
+                        quote: "We should never treat people merely as a means to an end—they are ends in themselves.",
+                        simplified: "Kant says we cannot use people like TOOLS, even to save the world. Every person matters and deserves respect."
+                    },
+                    {
+                        book: "Justice: What's the Right Thing to Do?",
+                        author: "Michael Sandel",
+                        quote: "What if the majority's happiness destroys the minority's basic rights?",
+                        simplified: "Sandel asks: what happens when helping most people means hurting a few badly? Is that fair? Your answer protects small groups."
+                    }
+                ]
+            },
+            high: {
+                agree: [
+                    {
+                        book: "Philosophy, Ethics, and Public Policy",
+                        author: "Andrew I. Cohen",
+                        quote: "The state often claims a monopoly on legitimate force during a crisis. Emergency powers suspend normal constraints.",
+                        simplified: "Cohen explains that during extreme emergencies, governments claim special powers that would normally be illegal. When survival is at stake, usual rules may be suspended."
+                    },
+                    {
+                        book: "A Theory of Justice",
+                        author: "John Rawls",
+                        quote: "In catastrophic scenarios, policy must prioritize species survival over individual claims.",
+                        simplified: "Rawls argues that when extinction is possible, society must prioritize survival of the species over individual property rights or autonomy."
+                    }
+                ],
+                disagree: [
+                    {
+                        book: "Philosophy, Ethics, and Public Policy",
+                        author: "Andrew I. Cohen",
+                        quote: "Unilateral authority without accountability creates tyranny, even when motivated by survival.",
+                        simplified: "Cohen warns that when one person claims total power without checks, this creates tyranny—even with good intentions."
+                    },
+                    {
+                        book: "In a Different Voice",
+                        author: "Carol Gilligan",
+                        quote: "Bodily autonomy and informed consent are foundational rights that cannot be suspended without profound moral cost.",
+                        simplified: "Gilligan emphasizes that bodily autonomy and consent are fundamental human rights. Violating these—even for survival—treats humans as mere instruments."
+                    }
+                ]
+            }
+        };
+
+        // ==================== SENTENCE STARTERS ====================
+        const sentenceStarters = {
+            elementary: {
+                point: "Starter: \"I think Commander Eva was...\"",
+                reason: "Starter: \"This is because...\"",
+                evidence: "Starter: \"In the story...\"",
+                explanation: "Starter: \"This shows...\"",
+                conclusion: "Starter: \"So, I believe...\""
+            },
+            middle: {
+                point: "Starter: \"I believe Stratt's decision was...\"",
+                reason: "Starter: \"This is because...\"",
+                evidence: "Starter: \"For example, in the story...\"",
+                explanation: "Starter: \"This shows that...\"",
+                conclusion: "Starter: \"Therefore...\""
+            },
+            high: {
+                point: "Starter: \"I contend that Stratt's decision was ethically...\"",
+                reason: "Starter: \"This position is justified because...\"",
+                evidence: "Starter: \"As evidenced in the scenario...\"",
+                explanation: "Starter: \"This demonstrates that...\"",
+                conclusion: "Starter: \"Therefore, it can be concluded that...\""
+            }
+        };
+
+        // ==================== STATE VARIABLES ====================
+        let currentScenario = null;
+        let currentGrade = null;
+
+        // ==================== MAIN FUNCTIONS ====================
+        function updateContent() {
+            const gradeLevel = document.getElementById('gradeLevel').value;
+            currentGrade = gradeLevel;
+
+            if (gradeLevel === '') {
+                document.getElementById('placeholderMessage').classList.remove('hidden');
+                document.getElementById('mainContent').classList.add('hidden');
+            } else {
+                document.getElementById('placeholderMessage').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+
+                populateScenarioDropdown(gradeLevel);
+                updateSentenceStarters(gradeLevel);
+            }
+        }
+
+        function populateScenarioDropdown(gradeLevel) {
+            const select = document.getElementById('scenarioSelect');
+            const scenarios = gradeScenarios[gradeLevel];
+
+            select.innerHTML = '<option value="">-- Select a Dilemma --</option>';
+
+            scenarios.forEach(scenario => {
+                const option = document.createElement('option');
+                option.value = scenario.key;
+                option.textContent = scenario.title;
+                select.appendChild(option);
+            });
+
+            document.getElementById('scenarioDisplay').classList.add('hidden');
+        }
+
+        function updateSentenceStarters(gradeLevel) {
+            const starters = sentenceStarters[gradeLevel];
+            document.getElementById('starterPoint').textContent = starters.point;
+            document.getElementById('starterReason').textContent = starters.reason;
+            document.getElementById('starterEvidence').textContent = starters.evidence;
+            document.getElementById('starterExplanation').textContent = starters.explanation;
+            document.getElementById('starterConclusion').textContent = starters.conclusion;
+        }
+
+        function loadScenario() {
+            const scenarioKey = document.getElementById('scenarioSelect').value;
+
+            if (scenarioKey === '') {
+                document.getElementById('scenarioDisplay').classList.add('hidden');
+                currentScenario = null;
+                return;
+            }
+
+            const scenarios = gradeScenarios[currentGrade];
+            const scenario = scenarios.find(s => s.key === scenarioKey);
+            currentScenario = scenario;
+
+            document.getElementById('scenarioIcon').textContent = scenario.icon;
+            document.getElementById('scenarioTitle').textContent = scenario.title;
+            document.getElementById('scenarioBadge').textContent = scenario.philosopher;
+            document.getElementById('scenarioText').textContent = scenario.text;
+            document.getElementById('yesNoQuestion').textContent = scenario.question;
+
+            document.getElementById('scenarioDisplay').classList.remove('hidden');
+            document.getElementById('feedbackReport').style.display = 'none';
+
+            resetFormFields();
+        }
+
+        function enableSubmit() {
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function resetFormFields() {
+            document.querySelectorAll('input[name="agreeDisagree"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('preepPoint').value = '';
+            document.getElementById('preepReason').value = '';
+            document.getElementById('preepEvidence').value = '';
+            document.getElementById('preepExplanation').value = '';
+            document.getElementById('preepConclusion').value = '';
+            document.getElementById('submitBtn').disabled = true;
+        }
+
+        function submitAnalysis() {
+            const userChoice = document.querySelector('input[name="agreeDisagree"]:checked').value;
+
+            document.querySelector('.preep-section').classList.add('hidden');
+            document.querySelector('.submit-container').classList.add('hidden');
+            document.querySelector('.yes-no-section').classList.add('hidden');
+
+            const choiceDisplay = document.getElementById('userChoiceDisplay');
+            if (userChoice === 'agree') {
+                choiceDisplay.innerHTML = "🟢 Your Ruling: <strong>I AGREE with Stratt's Decision</strong>";
+                choiceDisplay.className = "user-choice-display agree";
+            } else {
+                choiceDisplay.innerHTML = "🔴 Your Ruling: <strong>I DISAGREE with Stratt's Decision</strong>";
+                choiceDisplay.className = "user-choice-display disagree";
+            }
+
+            generateSupportingContent(userChoice);
+            generateOpposingContent(userChoice);
+
+            document.getElementById('feedbackReport').style.display = 'block';
+            document.getElementById('feedbackReport').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateSupportingContent(userChoice) {
+            const container = document.getElementById('supportingContent');
+            const quotes = userChoice === 'agree'
+                ? bookQuotes[currentGrade].agree
+                : bookQuotes[currentGrade].disagree;
+
+            const quote = quotes[0];
+
+            container.innerHTML = `
+                <div class="quote-box">
+                    <p class="quote-text">"${quote.quote}"</p>
+                    <p class="quote-source">— ${quote.author}, <em>${quote.book}</em></p>
+                </div>
+                <div class="explanation-box">
+                    <p class="explanation-label">💡 What This Means:</p>
+                    <p class="explanation-text">${quote.simplified}</p>
+                </div>
+            `;
+        }
+
+        function generateOpposingContent(userChoice) {
+            const container = document.getElementById('opposingContent');
+            const quotes = userChoice === 'agree'
+                ? bookQuotes[currentGrade].disagree
+                : bookQuotes[currentGrade].agree;
+
+            const quote = quotes[0];
+
+            container.innerHTML = `
+                <div class="quote-box">
+                    <p class="quote-text">"${quote.quote}"</p>
+                    <p class="quote-source">— ${quote.author}, <em>${quote.book}</em></p>
+                </div>
+                <div class="explanation-box">
+                    <p class="explanation-label">🤔 Consider This Counter-Argument:</p>
+                    <p class="explanation-text">${quote.simplified}</p>
+                </div>
+            `;
+        }
+
+        function resetForm() {
+            document.getElementById('scenarioSelect').value = '';
+            document.getElementById('scenarioDisplay').classList.add('hidden');
+            document.getElementById('feedbackReport').style.display = 'none';
+
+            document.querySelector('.preep-section').classList.remove('hidden');
+            document.querySelector('.submit-container').classList.remove('hidden');
+            document.querySelector('.yes-no-section').classList.remove('hidden');
+
+            resetFormFields();
+            currentScenario = null;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('placeholderMessage').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
